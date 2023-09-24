@@ -36,9 +36,18 @@
     padding: 0.1% 5px;
 }
 
+.styled-table td label{
+    cursor: pointer;
+}
+
+.styled-table td:has(input:checked){
+    background-color: yellow;
+}
+
 .styled-table th{
     padding: 0.3% 5px;
 }
+
 
 .styled-table tbody tr {
     border-bottom: 1px solid #dddddd;
