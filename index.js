@@ -573,7 +573,7 @@ function montarEscala(tag, nome, atividade, transporte = 'MICRO', local = "ATUAL
 }
 
 // SALVA NO LOCAL STORAGE
-function montarListaEscalas(escala) {
+function montarListaEscalas(escala, operadoresForaEscala, equipamentoFaltaOperador) {
     let date = new Date();
     let ano = date.getFullYear();
     let mes = date.getMonth() + 1;
@@ -587,6 +587,8 @@ function montarListaEscalas(escala) {
         horarioCriacao: `${hora}:${minuto}:${segundo}`,
         nome: `Escala do dia ${ano}/${mes}/${dia}`,
         escala: escala,
+        operadoresForaEscala: operadoresForaEscala,
+        equipamentoFaltaOperador: equipamentoFaltaOperador
     }
 
     listaEscalas.unshift(escalas);
@@ -1180,7 +1182,7 @@ function atribuirEventos() {
         btnSalvarEscala.disabled = true;
 
         // SALVA NO LOCALSTORAGE
-        montarListaEscalas(escala);
+        montarListaEscalas(escala, operadoresDisponiveis, equipamentosDisponiveis);
         tela2.classList.add('esconder');
         tela2.classList.remove('mostrar');
 
