@@ -628,6 +628,7 @@ function montarEscala(tag, nome, atividade, local, transporte = 'MICRO') {
     }
 
     escala.push(operadorEquipamento);
+    
 }
 
 // SALVA NO LOCAL STORAGE
