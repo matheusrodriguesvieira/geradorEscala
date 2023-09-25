@@ -40,7 +40,7 @@
 
 .styled-table td label{
     cursor: pointer;
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
 }
 
 .styled-table td:has(input:checked){

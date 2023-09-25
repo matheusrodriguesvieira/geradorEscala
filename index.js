@@ -620,20 +620,14 @@ function salvarParametros() {
 function montarEscala(tag, nome, atividade, local, transporte = 'MICRO') {
 
     let operadorEquipamento = {
-        equipamento: tag,
-        operador: nome,
-        local: local,
-        transporte: transporte,
-        atividade: atividade,
-        // equipamento: tag.toUpperCase(),
-        // operador: nome.toUpperCase(),
-        // local: local.toUpperCase(),
-        // transporte: transporte.toUpperCase(),
-        // atividade: atividade.toUpperCase(),
+        equipamento: tag.toUpperCase(),
+        operador: nome.toUpperCase(),
+        local: local.toUpperCase(),
+        transporte: transporte.toUpperCase(),
+        atividade: atividade.toUpperCase(),
     }
 
     escala.push(operadorEquipamento);
-
 }
 
 // SALVA NO LOCAL STORAGE
@@ -1067,7 +1061,7 @@ function renderizarConfiguracoes() {
         ulListaOperadores.innerHTML += `
                                 <li id="${index}">
                                     <div class="liConfiguracaoContainer">
-                                        <div class="operadorEEquipamentoNome">${operador.nome}</div>
+                                        <div class="operadorEEquipamentoNome">${operador.nome.toUpperCase()}</div>
                                         <div class="operadorEEquipamentoStatus">${operador.disponivel ? "Disponível" : "Indisponível"}</div>
                                         <div class="controlesConfiguracaoContainer">
                                             
@@ -1084,7 +1078,7 @@ function renderizarConfiguracoes() {
         ulListaEquipamentos.innerHTML += `
                                 <li id="${index}">
                                 <div class="liConfiguracaoContainer">
-                                    <div class="operadorEEquipamentoNome">${equipamento.tag}</div>
+                                    <div class="operadorEEquipamentoNome">${equipamento.tag.toUpperCase()}</div>
                                     <div class="operadorEEquipamentoStatus">${equipamento.disponivel ? "Disponível" : "Indisponível"}</div>
                                     <div class="controlesConfiguracaoContainer">
                                         
@@ -1287,28 +1281,28 @@ function atribuirEventos() {
                         // VERIFICA A COLUNA CHECADA PARA PODER SALVAR O BANCO DE DADOS
                         if (check.getAttribute('col2') != null) {
                             let index = listaEscalas[0].escala.findIndex((element) => element.operador == check.parentElement.innerText);
-                            listaEscalas[0].escala[index].operador = input.value;
+                            listaEscalas[0].escala[index].operador = input.value.toUpperCase();
                         } else if (check.getAttribute('col3') != null) {
                             let index = listaEscalas[0].escala.findIndex((element) => element.local == check.parentElement.innerText);
-                            listaEscalas[0].escala[index].local = input.value;
+                            listaEscalas[0].escala[index].local = input.value.toUpperCase();
 
-                            index = equipamentos.findIndex( equipamento => equipamento.tag == listaEscalas[0].escala[index].equipamento);
+                            index = equipamentos.findIndex( equipamento => equipamento.tag.toUpperCase() == listaEscalas[0].escala[index].equipamento);
                             equipamentos[index].local = input.value;
                         } else if (check.getAttribute('col4') != null) {
                             let index = listaEscalas[0].escala.findIndex((element) => element.transporte == check.parentElement.innerText);
-                            listaEscalas[0].escala[index].transporte = input.value;
+                            listaEscalas[0].escala[index].transporte = input.value.toUpperCase();
                         } else if (check.getAttribute('col5') != null) {
                             let index = listaEscalas[0].escala.findIndex((element) => element.atividade == check.parentElement.innerText);
-                            listaEscalas[0].escala[index].atividade = input.value;
+                            listaEscalas[0].escala[index].atividade = input.value.toUpperCase();
                             
-                            index = equipamentos.findIndex( equipamento => equipamento.tag == listaEscalas[0].escala[index].equipamento);
+                            index = equipamentos.findIndex( equipamento => equipamento.tag.toUpperCase() == listaEscalas[0].escala[index].equipamento);
                             equipamentos[index].atividade = input.value;
 
                             console.log(equipamentos[index]);
                         }
 
 
-                        check.parentElement.innerHTML = input.value;
+                        check.parentElement.innerHTML = input.value.toUpperCase();
                         console.log(equipamentos);
                         salvarParametros();
                         resetarParametros();
@@ -1316,27 +1310,27 @@ function atribuirEventos() {
 
                         if (check.getAttribute('col2') != null) {
                             let index = escala.findIndex((element) => element.operador == check.parentElement.innerText);
-                            escala[index].operador = input.value;
+                            escala[index].operador = input.value.toUpperCase();
                         } else if (check.getAttribute('col3') != null) {
                             let index = escala.findIndex((element) => element.local == check.parentElement.innerText);
-                            escala[index].local = input.value;
+                            escala[index].local = input.value.toUpperCase();
 
-                            index = equipamentos.findIndex( equipamento => equipamento.tag == escala[index].equipamento);
+                            index = equipamentos.findIndex( equipamento => equipamento.tag.toUpperCase() == escala[index].equipamento);
                             equipamentos[index].local = input.value;
                             // console.log(equipamentos[index]);
                         } else if (check.getAttribute('col4') != null) {
                             let index = escala.findIndex((element) => element.transporte == check.parentElement.innerText);
-                            escala[index].transporte = input.value;
+                            escala[index].transporte = input.value.toUpperCase();
                         } else if (check.getAttribute('col5') != null) {
                             let index = escala.findIndex((element) => element.atividade == check.parentElement.innerText);
-                            escala[index].atividade = input.value;
+                            escala[index].atividade = input.value.toUpperCase();
 
-                            index = equipamentos.findIndex( equipamento => equipamento.tag == escala[index].equipamento);
+                            index = equipamentos.findIndex( equipamento => equipamento.tag.toUpperCase() == escala[index].equipamento);
                             equipamentos[index].atividade = input.value;
                         }
 
 
-                        check.parentElement.innerHTML = input.value;
+                        check.parentElement.innerHTML = input.value.toUpperCase();
                         // salvarParametros();
                     }
                 } else {
