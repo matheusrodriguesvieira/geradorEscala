@@ -53,6 +53,11 @@
     border-bottom: 1px solid #bdc3c7;
 }
 
+.operadorEEquipamentoNome{
+    text-transform: uppercase;
+    font-size: 13px;
+}
+
 .operadorEEquipamentoNome, .operadorEEquipamentoStatus{
     width: 40%;
 }
