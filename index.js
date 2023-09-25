@@ -617,7 +617,11 @@ function salvarParametros() {
 
 // FUNÇÕES LÓGICAS
 // --------------------------------------------------------------------------------------------------------
-function montarEscala(tag, nome, atividade, local, transporte = 'MICRO') {
+function montarEscala(tag, nome, atividade, local = 'ATUALIZE O LOCAL', transporte = 'MICRO') {
+
+    // console.log("mostrando tag: "+ tag);
+    // console.log("mostrando local: "+ local);
+
 
     let operadorEquipamento = {
         equipamento: tag.toUpperCase(),
@@ -694,6 +698,12 @@ function mostrarEscala() {
         })
     }
 
+    if (equipamentosIndisponiveis.length > 0) {
+        equipamentosIndisponiveis.forEach(equipamento => {
+            montarEscala(equipamento.tag, "manutenção", "manutenção", equipamento.local);
+        })
+    }
+
     console.log('repetições: ' + contador);
     console.log('escala: ');
     // console.log(escala.sort((a, b) => {
@@ -752,6 +762,25 @@ function escalarDragline() {
             // console.log('escala: ');
             // console.log(escala);
         }
+
+        // VERIFICA SE TEM EQUIPAMENTO DISPONÍVEL E NÃO TEM OPERADOR
+        if (draglines.length > 0 && operadores.length == 0) {
+            draglines.forEach(equipamento => {
+                equipamentosDisponiveis.splice(equipamentosDisponiveis.indexOf(equipamento), 1);
+                montarEscala(equipamento.tag, "falta de operador", equipamento.local);
+            });
+        }
+
+    } else if ((
+        (equipamentosDisponiveis.filter((equipamento) => equipamento.categoria == "dragline")).length != 0
+    ) && (
+            operadoresDisponiveis.filter((operador) => operador.habilitado.dragline == false).length != 0
+        )) {
+        let draglines = equipamentosDisponiveis.filter((equipamento) => equipamento.categoria == "dragline");
+        draglines.forEach(equipamento => {
+            equipamentosDisponiveis.splice(equipamentosDisponiveis.indexOf(equipamento), 1);
+            montarEscala(equipamento.tag, "falta de operador", equipamento.local);
+        });
     }
 }
 
@@ -771,6 +800,7 @@ function escalarEHGP(preferencia = false) {
         // PARTE RESPONSÁVEL PELA PREFERÊNCIA DOS OPERADORES DE ESCAVADEIRA
 
         if (preferencia) {
+            // OPERA APENAS ESCAVADEIRA
             if (operadores.filter((operador) => (operador.habilitado.d11 == false && operador.habilitado.cat777 == false && operador.habilitado.dragline == false)).length > 0) {
                 let operadoresApenasEhgp = operadores.filter((operador) => (operador.habilitado.d11 == false && operador.habilitado.cat777 == false && operador.habilitado.dragline == false))
 
@@ -784,6 +814,29 @@ function escalarEHGP(preferencia = false) {
                     escavadeiras.splice(escavadeiras.indexOf(equipamento), 1);
                     operadores.splice(operadores.indexOf(operador), 1);
                     operadoresApenasEhgp.splice(operadoresApenasEhgp.indexOf(operador), 1);
+
+                    montarEscala(equipamento.tag, operador.nome, equipamento.atividade, equipamento.local);
+
+                    // console.log(escala);
+                }
+
+            }
+
+            // OPERA ESCAVADEIRA E 777
+            if (operadores.filter((operador) => (operador.habilitado.d11 == false && operador.habilitado.cat777 == true && operador.habilitado.dragline == false)).length > 0) {
+                let operadoresApenasEhgpECat777 = operadores.filter((operador) => (operador.habilitado.d11 == false && operador.habilitado.cat777 == true && operador.habilitado.dragline == false))
+
+                // console.log('operadoresApenasEhgpECat777: ' + operadoresApenasEhgpECat777);
+                while ((escavadeiras.length > 0) && (operadoresApenasEhgpECat777.length > 0)) {
+                    let equipamento = escavadeiras[Math.floor(Math.random() * escavadeiras.length)];
+                    let operador = operadoresApenasEhgpECat777[Math.floor(Math.random() * operadoresApenasEhgpECat777.length)];
+
+                    equipamentosDisponiveis.splice(equipamentosDisponiveis.indexOf(equipamento), 1);
+                    operadoresDisponiveis.splice(operadoresDisponiveis.indexOf(operador), 1);
+
+                    escavadeiras.splice(escavadeiras.indexOf(equipamento), 1);
+                    operadores.splice(operadores.indexOf(operador), 1);
+                    operadoresApenasEhgpECat777.splice(operadoresApenasEhgpECat777.indexOf(operador), 1);
 
                     montarEscala(equipamento.tag, operador.nome, equipamento.atividade, equipamento.local);
 
@@ -803,9 +856,25 @@ function escalarEHGP(preferencia = false) {
             operadores.splice(operadores.indexOf(operador), 1);
 
             montarEscala(equipamento.tag, operador.nome, equipamento.atividade, equipamento.local);
-
-
         }
+
+        // VERIFICA SE TEM EQUIPAMENTO DISPONÍVEL E NÃO TEM OPERADOR
+        if ((preferencia) && escavadeiras.length > 0 && operadores.length == 0) {
+            escavadeiras.forEach(equipamento => {
+                equipamentosDisponiveis.splice(equipamentosDisponiveis.indexOf(equipamento), 1);
+                montarEscala(equipamento.tag, "falta de operador", equipamento.local);
+            });
+        }
+    } else if ((
+        (equipamentosDisponiveis.filter((equipamento) => equipamento.categoria == "ehgp")).length != 0
+    ) && (
+            operadoresDisponiveis.filter((operador) => operador.habilitado.ehgp == false).length != 0
+        )) {
+        let escavadeiras = equipamentosDisponiveis.filter((equipamento) => equipamento.categoria == "ehgp");
+        escavadeiras.forEach(equipamento => {
+            equipamentosDisponiveis.splice(equipamentosDisponiveis.indexOf(equipamento), 1);
+            montarEscala(equipamento.tag, "falta de operador", equipamento.local);
+        });
     }
 }
 
@@ -824,6 +893,7 @@ function escalarCat777(preferencia = false) {
         // PARTE RESPONSÁVEL PELA PREFERÊNCIA DOS OPERADORES
 
         if (preferencia) {
+            // OPERA APENAS 777
             if (operadores.filter((operador) => (operador.habilitado.d11 == false && operador.habilitado.ehgp == false && operador.habilitado.dragline == false)).length > 0) {
                 let operadoresApenasCat777 = operadores.filter((operador) => (operador.habilitado.d11 == false && operador.habilitado.ehgp == false))
 
@@ -837,6 +907,26 @@ function escalarCat777(preferencia = false) {
                     caminhoes.splice(caminhoes.indexOf(equipamento), 1);
                     operadores.splice(operadores.indexOf(operador), 1);
                     operadoresApenasCat777.splice(operadoresApenasCat777.indexOf(operador), 1);
+
+                    montarEscala(equipamento.tag, operador.nome, equipamento.atividade, equipamento.local);
+                }
+
+            } 
+            
+            // OPERA APENAS CAT777 E EHGP
+            if (operadores.filter((operador) => (operador.habilitado.d11 == false && operador.habilitado.ehgp == true && operador.habilitado.dragline == false)).length > 0) {
+                let operadoresApenasCat777EEscavadeira = operadores.filter((operador) => (operador.habilitado.d11 == false && operador.habilitado.ehgp == true))
+
+                while ((caminhoes.length > 0) && (operadoresApenasCat777EEscavadeira.length > 0)) {
+                    let equipamento = caminhoes[Math.floor(Math.random() * caminhoes.length)];
+                    let operador = operadoresApenasCat777EEscavadeira[Math.floor(Math.random() * operadoresApenasCat777EEscavadeira.length)];
+
+                    equipamentosDisponiveis.splice(equipamentosDisponiveis.indexOf(equipamento), 1);
+                    operadoresDisponiveis.splice(operadoresDisponiveis.indexOf(operador), 1);
+
+                    caminhoes.splice(caminhoes.indexOf(equipamento), 1);
+                    operadores.splice(operadores.indexOf(operador), 1);
+                    operadoresApenasCat777EEscavadeira.splice(operadoresApenasCat777EEscavadeira.indexOf(operador), 1);
 
                     montarEscala(equipamento.tag, operador.nome, equipamento.atividade, equipamento.local);
                 }
@@ -855,10 +945,29 @@ function escalarCat777(preferencia = false) {
 
             montarEscala(equipamento.tag, operador.nome, equipamento.atividade, equipamento.local);
         }
+
+        // VERIFICA SE TEM EQUIPAMENTO DISPONÍVEL E NÃO TEM OPERADOR
+        if ((preferencia) && caminhoes.length > 0 && operadores.length == 0) {
+            caminhoes.forEach(equipamento => {
+                equipamentosDisponiveis.splice(equipamentosDisponiveis.indexOf(equipamento), 1);
+                montarEscala(equipamento.tag, "falta de operador", equipamento.local);
+            });
+        }
+
+    } else if ((
+        (equipamentosDisponiveis.filter((equipamento) => equipamento.categoria == "cat777")).length != 0
+    ) && (
+            operadoresDisponiveis.filter((operador) => operador.habilitado.cat777 == false).length != 0
+        )) {
+        let caminhoes = equipamentosDisponiveis.filter((equipamento) => equipamento.categoria == "cat777");
+        caminhoes.forEach(equipamento => {
+            equipamentosDisponiveis.splice(equipamentosDisponiveis.indexOf(equipamento), 1);
+            montarEscala(equipamento.tag, "falta de operador", equipamento.local);
+        });
     }
 }
 
-function escalarD11() {
+function escalarD11(preferencia = false) {
     if ((
         equipamentosDisponiveis.filter((equipamento) => equipamento.categoria == "d11").length != 0
     ) && (
@@ -887,6 +996,24 @@ function escalarD11() {
 
         }
 
+        // VERIFICA SE TEM EQUIPAMENTO DISPONÍVEL E NÃO TEM OPERADOR
+        if ((preferencia) && d11.length > 0 && operadores.length == 0) {
+            d11.forEach(equipamento => {
+                equipamentosDisponiveis.splice(equipamentosDisponiveis.indexOf(equipamento), 1);
+                montarEscala(equipamento.tag, "falta de operador", equipamento.local);
+            });
+        }
+
+    } else if ((
+        (equipamentosDisponiveis.filter((equipamento) => equipamento.categoria == "d11")).length != 0
+    ) && (
+            operadoresDisponiveis.filter((operador) => operador.habilitado.d11 == false).length != 0
+        )) {
+        let d11 = equipamentosDisponiveis.filter((equipamento) => equipamento.categoria == "d11");
+        d11.forEach(equipamento => {
+            equipamentosDisponiveis.splice(equipamentosDisponiveis.indexOf(equipamento), 1);
+            montarEscala(equipamento.tag, "falta de operador", equipamento.local);
+        });
     }
 }
 // --------------------------------------------------------------
@@ -953,7 +1080,7 @@ function escala4() {
     escalarCat777(true);
 
     // ESCALANDO D11
-    escalarD11();
+    escalarD11(true);
 }
 // --------------------------------------------------------------------------------------------------------
 
@@ -1144,11 +1271,11 @@ function renderizarEscala(escala) {
     escala.forEach((element, index) => {
         let novaLinha = `
                             <tr id=${index}>
-                                <td col1><label for="col1${index}">${element.equipamento}</label></td>
-                                <td col2><label for="col2${index}">${element.operador}</label></td>
-                                <td col3><label for="col3${index}">${element.local}</label></td>
-                                <td col4><label for="col4${index}">${element.transporte}</label></td>
-                                <td col5><label for="col5${index}">${element.atividade}</label></td>
+                                <td col1 class="${element.operador == 'FALTA DE OPERADOR' ? 'semOperador' : element.operador == 'MANUTENÇÃO' ? 'manutencao' : ''}"><label for="col1${index}">${element.equipamento}</label></td>
+                                <td col2 class="${element.operador == 'FALTA DE OPERADOR' ? 'semOperador' : element.operador == 'MANUTENÇÃO' ? 'manutencao' : ''}"><label for="col2${index}">${element.operador}</label></td>
+                                <td col3 class="${element.operador == 'FALTA DE OPERADOR' ? 'semOperador' : element.operador == 'MANUTENÇÃO' ? 'manutencao' : ''}"><label for="col3${index}">${element.local}</label></td>
+                                <td col4 class="${element.operador == 'FALTA DE OPERADOR' ? 'semOperador' : element.operador == 'MANUTENÇÃO' ? 'manutencao' : ''}"><label for="col4${index}">${element.transporte}</label></td>
+                                <td col5 class="${element.operador == 'FALTA DE OPERADOR' ? 'semOperador' : element.operador == 'MANUTENÇÃO' ? 'manutencao' : ''}"><label for="col5${index}">${element.atividade}</label></td>
                             </tr>
             
             `;
@@ -1286,7 +1413,7 @@ function atribuirEventos() {
                             let index = listaEscalas[0].escala.findIndex((element) => element.local == check.parentElement.innerText);
                             listaEscalas[0].escala[index].local = input.value.toUpperCase();
 
-                            index = equipamentos.findIndex( equipamento => equipamento.tag.toUpperCase() == listaEscalas[0].escala[index].equipamento);
+                            index = equipamentos.findIndex(equipamento => equipamento.tag.toUpperCase() == listaEscalas[0].escala[index].equipamento);
                             equipamentos[index].local = input.value;
                         } else if (check.getAttribute('col4') != null) {
                             let index = listaEscalas[0].escala.findIndex((element) => element.transporte == check.parentElement.innerText);
@@ -1294,8 +1421,8 @@ function atribuirEventos() {
                         } else if (check.getAttribute('col5') != null) {
                             let index = listaEscalas[0].escala.findIndex((element) => element.atividade == check.parentElement.innerText);
                             listaEscalas[0].escala[index].atividade = input.value.toUpperCase();
-                            
-                            index = equipamentos.findIndex( equipamento => equipamento.tag.toUpperCase() == listaEscalas[0].escala[index].equipamento);
+
+                            index = equipamentos.findIndex(equipamento => equipamento.tag.toUpperCase() == listaEscalas[0].escala[index].equipamento);
                             equipamentos[index].atividade = input.value;
 
                             console.log(equipamentos[index]);
@@ -1306,6 +1433,8 @@ function atribuirEventos() {
                         console.log(equipamentos);
                         salvarParametros();
                         resetarParametros();
+                        // console.log(listaEscalas[0].escala);
+                        renderizarEscala(listaEscalas[0].escala);
                     } else {
 
                         if (check.getAttribute('col2') != null) {
@@ -1315,7 +1444,7 @@ function atribuirEventos() {
                             let index = escala.findIndex((element) => element.local == check.parentElement.innerText);
                             escala[index].local = input.value.toUpperCase();
 
-                            index = equipamentos.findIndex( equipamento => equipamento.tag.toUpperCase() == escala[index].equipamento);
+                            index = equipamentos.findIndex(equipamento => equipamento.tag.toUpperCase() == escala[index].equipamento);
                             equipamentos[index].local = input.value;
                             // console.log(equipamentos[index]);
                         } else if (check.getAttribute('col4') != null) {
@@ -1325,13 +1454,14 @@ function atribuirEventos() {
                             let index = escala.findIndex((element) => element.atividade == check.parentElement.innerText);
                             escala[index].atividade = input.value.toUpperCase();
 
-                            index = equipamentos.findIndex( equipamento => equipamento.tag.toUpperCase() == escala[index].equipamento);
+                            index = equipamentos.findIndex(equipamento => equipamento.tag.toUpperCase() == escala[index].equipamento);
                             equipamentos[index].atividade = input.value;
                         }
 
 
                         check.parentElement.innerHTML = input.value.toUpperCase();
                         // salvarParametros();
+                        renderizarEscala(escala);
                     }
                 } else {
                     check.parentElement.innerHTML = '' + check.parentElement.innerText;

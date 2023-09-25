@@ -179,6 +179,14 @@
     /* background-color: pink; */
 }
 
+.semOperador{
+    background-color: rgba(0, 168, 255,0.5);
+}
+
+.manutencao{
+    background-color: rgba(192, 57, 43,0.5);
+}
+
 
 @media (max-width: 720px) {
 
