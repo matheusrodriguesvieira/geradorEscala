@@ -29,6 +29,7 @@ var btnMostrarTela2 = document.querySelector('[novaEscala]');
 var btnTela3Voltar = document.querySelector('[tela3Voltar]');
 var btnMostrarTela3 = document.querySelectorAll('[configuracao]');
 var btnTela4Voltar = document.querySelector('[tela4Voltar]');
+var btnResetarBancoDados = document.querySelector('[resetarBancoDados]');
 
 
 var btnGerarEscala = document.querySelector('[gerarEscala]');
@@ -1312,10 +1313,11 @@ function atribuirEventos() {
                             escala[index].operador = input.value.toUpperCase();
                         } else if (check.getAttribute('col3') != null) {
                             let index = escala.findIndex((element) => element.local == check.parentElement.innerText);
-                            equipamentos.local = input.value;
+                            escala[index].local = input.value.toUpperCase();
 
                             index = equipamentos.findIndex( equipamento => equipamento.tag.toUpperCase() == escala[index].equipamento);
                             equipamentos[index].local = input.value;
+                            // console.log(equipamentos[index]);
                         } else if (check.getAttribute('col4') != null) {
                             let index = escala.findIndex((element) => element.transporte == check.parentElement.innerText);
                             escala[index].transporte = input.value.toUpperCase();
@@ -1389,7 +1391,16 @@ function atribuirEventos() {
             }
         });
     });
+
+    btnResetarBancoDados.addEventListener('click', () => {
+        if (confirm("Esta ação irá resetar todos os dados do aplicativo. Deseja realmente fazer isto?")) {
+            localStorage.clear();
+            location.reload();
+            alert('Dados Apagados com sucesso!');
+        }
+    })
 }
+
 
 window.addEventListener('load', () => {
     // localStorage.clear();
