@@ -56,7 +56,7 @@
 }
 
 .styled-table tbody tr:nth-of-type(even) {
-    background-color: #f3f3f3;
+    background-color: rgba(127, 140, 141,0.2);
 }
 
 .styled-table tbody tr:last-of-type {

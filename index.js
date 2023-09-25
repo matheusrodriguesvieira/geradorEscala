@@ -367,174 +367,231 @@ function resetarParametros() {
             tag: 'te8020',
             categoria: "d11",
             disponivel: true,
+            atividade: "atualize a atividade",
+            local: "atualize o local",
         },
         {
             id: 2,
             tag: 'eh9501',
             categoria: "ehgp",
             disponivel: true,
+            atividade: "atualize a atividade",
+            local: "atualize o local",
         },
         {
             id: 3,
             tag: 'cb6501',
             categoria: "cat777",
             disponivel: true,
+            atividade: "atualize a atividade",
+            local: "atualize o local",
         },
         {
             id: 4,
             tag: 'te8024',
             categoria: "d11",
             disponivel: true,
+            atividade: "atualize a atividade",
+            local: "atualize o local",
         },
         {
             id: 5,
             tag: 'te8026',
             categoria: "d11",
             disponivel: true,
+            atividade: "atualize a atividade",
+            local: "atualize o local",
         },
         {
             id: 6,
             tag: 'te8027',
             categoria: "d11",
             disponivel: true,
+            atividade: "atualize a atividade",
+            local: "atualize o local",
         },
         {
             id: 7,
             tag: 'te8028',
             categoria: "d11",
             disponivel: true,
+            atividade: "atualize a atividade",
+            local: "atualize o local",
         },
         {
             id: 8,
             tag: 'te8029',
             categoria: "d11",
             disponivel: true,
+            atividade: "atualize a atividade",
+            local: "atualize o local",
         },
         {
             id: 9,
             tag: 'te8030',
             categoria: "d11",
             disponivel: true,
+            atividade: "atualize a atividade",
+            local: "atualize o local",
         },
         {
             id: 10,
             tag: 'te8031',
             categoria: "d11",
             disponivel: true,
+            atividade: "atualize a atividade",
+            local: "atualize o local",
         },
         {
             id: 11,
             tag: 'te8032',
             categoria: "d11",
             disponivel: true,
+            atividade: "atualize a atividade",
+            local: "atualize o local",
         },
         {
             id: 12,
             tag: 'te8033',
             categoria: "d11",
             disponivel: true,
+            atividade: "atualize a atividade",
+            local: "atualize o local",
         },
         {
             id: 13,
             tag: 'te8034',
             categoria: "d11",
             disponivel: true,
+            atividade: "atualize a atividade",
+            local: "atualize o local",
         },
         {
             id: 14,
             tag: 'te8035',
             categoria: "d11",
             disponivel: true,
+            atividade: "atualize a atividade",
+            local: "atualize o local",
         },
         {
             id: 15,
             tag: 'te8036',
             categoria: "d11",
             disponivel: true,
+            atividade: "atualize a atividade",
+            local: "atualize o local",
         },
         {
             id: 16,
             tag: 'te8037',
             categoria: "d11",
             disponivel: true,
+            atividade: "atualize a atividade",
+            local: "atualize o local",
         },
         {
             id: 17,
             tag: 'te8038',
             categoria: "d11",
             disponivel: true,
+            atividade: "atualize a atividade",
+            local: "atualize o local",
         },
         {
             id: 18,
             tag: 'te8039',
             categoria: "d11",
             disponivel: true,
+            atividade: "atualize a atividade",
+            local: "atualize o local",
         },
         {
             id: 19,
             tag: 'te8040',
             categoria: "d11",
             disponivel: true,
+            atividade: "atualize a atividade",
+            local: "atualize o local",
         },
         {
             id: 20,
             tag: 'eh9502',
             categoria: "ehgp",
             disponivel: true,
+            atividade: "atualize a atividade",
+            local: "atualize o local",
         },
         {
             id: 21,
             tag: 'eh9503',
             categoria: "ehgp",
             disponivel: true,
+            atividade: "atualize a atividade",
+            local: "atualize o local",
         },
         {
             id: 22,
             tag: 'eh9504',
             categoria: "ehgp",
             disponivel: true,
+            atividade: "atualize a atividade",
+            local: "atualize o local",
         },
         {
             id: 23,
             tag: 'eh9505',
             categoria: "ehgp",
             disponivel: true,
+            atividade: "atualize a atividade",
+            local: "atualize o local",
         },
         {
             id: 24,
             tag: 'cb6502',
             categoria: "cat777",
             disponivel: true,
+            atividade: "atualize a atividade",
+            local: "atualize o local",
         },
         {
             id: 25,
             tag: 'cb6503',
             categoria: "cat777",
             disponivel: true,
+            atividade: "atualize a atividade",
+            local: "atualize o local",
         },
         {
             id: 26,
             tag: 'cb6504',
             categoria: "cat777",
             disponivel: true,
+            atividade: "atualize a atividade",
+            local: "atualize o local",
         },
         {
             id: 27,
             tag: 'te8041',
             categoria: "d11",
             disponivel: true,
+            atividade: "atualize a atividade",
+            local: "atualize o local",
         },
         {
             id: 28,
             tag: 'dg8301',
             categoria: "dragline",
             disponivel: true,
+            atividade: "atualize a atividade",
+            local: "atualize o local",
         },
     ];
 
     listaEscalas = listasEscalasBD != null ? JSON.parse(listasEscalasBD) : [];
 
     equipamentosDisponiveis = equipamentos.filter((equipamento) => equipamento.disponivel == true);
+    equipamentosIndisponiveis = equipamentos.filter((equipamento) => equipamento.disponivel == false);
     operadoresDisponiveis = operadores.filter((operador) => operador.disponivel == true);
     escala = [];
 
@@ -559,7 +616,7 @@ function salvarParametros() {
 
 // FUNÇÕES LÓGICAS
 // --------------------------------------------------------------------------------------------------------
-function montarEscala(tag, nome, atividade, transporte = 'MICRO', local = "ATUALIZE O LOCAL") {
+function montarEscala(tag, nome, atividade, local, transporte = 'MICRO') {
 
     let operadorEquipamento = {
         equipamento: tag.toUpperCase(),
@@ -630,6 +687,12 @@ function mostrarEscala() {
         }
     }
 
+    if (equipamentosDisponiveis.length > 0) {
+        equipamentosDisponiveis.forEach(equipamento => {
+            montarEscala(equipamento.tag, "falta de operador", equipamento.atividade, equipamento.local);
+        })
+    }
+
     console.log('repetições: ' + contador);
     console.log('escala: ');
     // console.log(escala.sort((a, b) => {
@@ -682,7 +745,7 @@ function escalarDragline() {
             // console.log(equipamentosDisponiveis);
             // console.log(operadoresDisponiveis);
 
-            montarEscala(equipamento.tag, operador.nome, 'PRODUZINDO ESTÉRIL');
+            montarEscala(equipamento.tag, operador.nome, equipamento.atividade, equipamento.local);
 
 
             // console.log('escala: ');
@@ -721,7 +784,7 @@ function escalarEHGP(preferencia = false) {
                     operadores.splice(operadores.indexOf(operador), 1);
                     operadoresApenasEhgp.splice(operadoresApenasEhgp.indexOf(operador), 1);
 
-                    montarEscala(equipamento.tag, operador.nome, 'EXPOSIÇÃO');
+                    montarEscala(equipamento.tag, operador.nome, equipamento.atividade, equipamento.local);
 
                     // console.log(escala);
                 }
@@ -738,7 +801,7 @@ function escalarEHGP(preferencia = false) {
             escavadeiras.splice(escavadeiras.indexOf(equipamento), 1);
             operadores.splice(operadores.indexOf(operador), 1);
 
-            montarEscala(equipamento.tag, operador.nome, 'EXPOSIÇÃO');
+            montarEscala(equipamento.tag, operador.nome, equipamento.atividade, equipamento.local);
 
 
         }
@@ -774,7 +837,7 @@ function escalarCat777(preferencia = false) {
                     operadores.splice(operadores.indexOf(operador), 1);
                     operadoresApenasCat777.splice(operadoresApenasCat777.indexOf(operador), 1);
 
-                    montarEscala(equipamento.tag, operador.nome, 'TRANSPORTANDO ESTÉRIL');
+                    montarEscala(equipamento.tag, operador.nome, equipamento.atividade, equipamento.local);
                 }
             }
         }
@@ -789,7 +852,7 @@ function escalarCat777(preferencia = false) {
             caminhoes.splice(caminhoes.indexOf(equipamento), 1);
             operadores.splice(operadores.indexOf(operador), 1);
 
-            montarEscala(equipamento.tag, operador.nome, 'TRANSPORTANDO ESTÉRIL');
+            montarEscala(equipamento.tag, operador.nome, equipamento.atividade, equipamento.local);
         }
     }
 }
@@ -819,7 +882,7 @@ function escalarD11() {
             d11.splice(d11.indexOf(equipamento), 1);
             operadores.splice(operadores.indexOf(operador), 1);
 
-            montarEscala(equipamento.tag, operador.nome, 'PRÉ-CORTE');
+            montarEscala(equipamento.tag, operador.nome, equipamento.atividade, equipamento.local);
 
         }
 
@@ -1221,16 +1284,25 @@ function atribuirEventos() {
                         } else if (check.getAttribute('col3') != null) {
                             let index = listaEscalas[0].escala.findIndex((element) => element.local == check.parentElement.innerText);
                             listaEscalas[0].escala[index].local = input.value.toUpperCase();
+
+                            index = equipamentos.findIndex( equipamento => equipamento.tag.toUpperCase() == listaEscalas[0].escala[index].equipamento);
+                            equipamentos[index].local = input.value;
                         } else if (check.getAttribute('col4') != null) {
                             let index = listaEscalas[0].escala.findIndex((element) => element.transporte == check.parentElement.innerText);
                             listaEscalas[0].escala[index].transporte = input.value.toUpperCase();
                         } else if (check.getAttribute('col5') != null) {
                             let index = listaEscalas[0].escala.findIndex((element) => element.atividade == check.parentElement.innerText);
                             listaEscalas[0].escala[index].atividade = input.value.toUpperCase();
+                            
+                            index = equipamentos.findIndex( equipamento => equipamento.tag.toUpperCase() == listaEscalas[0].escala[index].equipamento);
+                            equipamentos[index].atividade = input.value;
+
+                            console.log(equipamentos[index]);
                         }
 
 
                         check.parentElement.innerHTML = input.value.toUpperCase();
+                        console.log(equipamentos);
                         salvarParametros();
                         resetarParametros();
                     } else {
@@ -1240,13 +1312,19 @@ function atribuirEventos() {
                             escala[index].operador = input.value.toUpperCase();
                         } else if (check.getAttribute('col3') != null) {
                             let index = escala.findIndex((element) => element.local == check.parentElement.innerText);
-                            escala[index].local = input.value.toUpperCase();
+                            equipamentos.local = input.value;
+
+                            index = equipamentos.findIndex( equipamento => equipamento.tag.toUpperCase() == escala[index].equipamento);
+                            equipamentos[index].local = input.value;
                         } else if (check.getAttribute('col4') != null) {
                             let index = escala.findIndex((element) => element.transporte == check.parentElement.innerText);
                             escala[index].transporte = input.value.toUpperCase();
                         } else if (check.getAttribute('col5') != null) {
                             let index = escala.findIndex((element) => element.atividade == check.parentElement.innerText);
-                            escala[index].atividade = input.value.toUpperCase().toUpperCase();
+                            escala[index].atividade = input.value.toUpperCase();
+
+                            index = equipamentos.findIndex( equipamento => equipamento.tag.toUpperCase() == escala[index].equipamento);
+                            equipamentos[index].atividade = input.value;
                         }
 
 
