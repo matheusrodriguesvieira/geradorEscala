@@ -47,6 +47,7 @@
 
 .liConfiguracaoContainer{
     display: flex;
+    width: 100%;
     padding: 1% 2%;
     justify-content: space-between;
     align-items: center;
@@ -54,12 +55,25 @@
 }
 
 .operadorEEquipamentoNome{
+    width: 55%;
     text-transform: uppercase;
-    font-size: 13px;
+    /* background-color: red; */
 }
 
+.operadorEEquipamentoStatus{
+    width: 25%;
+}
+
+/* .detalhesIndisponibilidade{
+    display: flex;
+    font-size: 11px;
+    width: 20%;
+    gap: 5px;
+} */
+
 .operadorEEquipamentoNome, .operadorEEquipamentoStatus{
-    width: 40%;
+    font-size: 12px;
+    letter-spacing: 1px;
 }
 
 .controlesConfiguracaoContainer{

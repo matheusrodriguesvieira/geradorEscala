@@ -6,9 +6,11 @@ var equipamentos;
 // -----------------------------VARIÁVEIS DE BANCO DE DADOS-----------------------------
 // USADA PARA GUARDAR OS EQUIPAMENTOS DISPONÍVEIS DO BANCO DE DADOS;
 var equipamentosDisponiveis;
+var equipamentosIndisponiveis;
 
 // USADA PARA GUARDAR OS OPERADORES DISPONÍVEIS DO BANCO DE DADOS;
 var operadoresDisponiveis;
+
 
 // USADA PARA GUARDAR A ESCALA FINAL;
 var escala;
@@ -370,6 +372,7 @@ function resetarParametros() {
             disponivel: true,
             atividade: "atualize a atividade",
             local: "atualize o local",
+            infraestrutura: false,
         },
         {
             id: 2,
@@ -378,6 +381,7 @@ function resetarParametros() {
             disponivel: true,
             atividade: "atualize a atividade",
             local: "atualize o local",
+            infraestrutura: false,
         },
         {
             id: 3,
@@ -386,6 +390,7 @@ function resetarParametros() {
             disponivel: true,
             atividade: "atualize a atividade",
             local: "atualize o local",
+            infraestrutura: false,
         },
         {
             id: 4,
@@ -394,6 +399,7 @@ function resetarParametros() {
             disponivel: true,
             atividade: "atualize a atividade",
             local: "atualize o local",
+            infraestrutura: false,
         },
         {
             id: 5,
@@ -402,6 +408,7 @@ function resetarParametros() {
             disponivel: true,
             atividade: "atualize a atividade",
             local: "atualize o local",
+            infraestrutura: false,
         },
         {
             id: 6,
@@ -410,6 +417,7 @@ function resetarParametros() {
             disponivel: true,
             atividade: "atualize a atividade",
             local: "atualize o local",
+            infraestrutura: false,
         },
         {
             id: 7,
@@ -418,6 +426,7 @@ function resetarParametros() {
             disponivel: true,
             atividade: "atualize a atividade",
             local: "atualize o local",
+            infraestrutura: false,
         },
         {
             id: 8,
@@ -426,6 +435,7 @@ function resetarParametros() {
             disponivel: true,
             atividade: "atualize a atividade",
             local: "atualize o local",
+            infraestrutura: false,
         },
         {
             id: 9,
@@ -434,6 +444,7 @@ function resetarParametros() {
             disponivel: true,
             atividade: "atualize a atividade",
             local: "atualize o local",
+            infraestrutura: false,
         },
         {
             id: 10,
@@ -442,6 +453,7 @@ function resetarParametros() {
             disponivel: true,
             atividade: "atualize a atividade",
             local: "atualize o local",
+            infraestrutura: false,
         },
         {
             id: 11,
@@ -450,6 +462,7 @@ function resetarParametros() {
             disponivel: true,
             atividade: "atualize a atividade",
             local: "atualize o local",
+            infraestrutura: false,
         },
         {
             id: 12,
@@ -458,6 +471,7 @@ function resetarParametros() {
             disponivel: true,
             atividade: "atualize a atividade",
             local: "atualize o local",
+            infraestrutura: false,
         },
         {
             id: 13,
@@ -466,6 +480,7 @@ function resetarParametros() {
             disponivel: true,
             atividade: "atualize a atividade",
             local: "atualize o local",
+            infraestrutura: false,
         },
         {
             id: 14,
@@ -474,6 +489,7 @@ function resetarParametros() {
             disponivel: true,
             atividade: "atualize a atividade",
             local: "atualize o local",
+            infraestrutura: false,
         },
         {
             id: 15,
@@ -482,6 +498,7 @@ function resetarParametros() {
             disponivel: true,
             atividade: "atualize a atividade",
             local: "atualize o local",
+            infraestrutura: false,
         },
         {
             id: 16,
@@ -490,6 +507,7 @@ function resetarParametros() {
             disponivel: true,
             atividade: "atualize a atividade",
             local: "atualize o local",
+            infraestrutura: false,
         },
         {
             id: 17,
@@ -498,6 +516,7 @@ function resetarParametros() {
             disponivel: true,
             atividade: "atualize a atividade",
             local: "atualize o local",
+            infraestrutura: false,
         },
         {
             id: 18,
@@ -506,6 +525,7 @@ function resetarParametros() {
             disponivel: true,
             atividade: "atualize a atividade",
             local: "atualize o local",
+            infraestrutura: false,
         },
         {
             id: 19,
@@ -514,6 +534,7 @@ function resetarParametros() {
             disponivel: true,
             atividade: "atualize a atividade",
             local: "atualize o local",
+            infraestrutura: false,
         },
         {
             id: 20,
@@ -522,6 +543,7 @@ function resetarParametros() {
             disponivel: true,
             atividade: "atualize a atividade",
             local: "atualize o local",
+            infraestrutura: false,
         },
         {
             id: 21,
@@ -530,6 +552,7 @@ function resetarParametros() {
             disponivel: true,
             atividade: "atualize a atividade",
             local: "atualize o local",
+            infraestrutura: false,
         },
         {
             id: 22,
@@ -538,6 +561,7 @@ function resetarParametros() {
             disponivel: true,
             atividade: "atualize a atividade",
             local: "atualize o local",
+            infraestrutura: false,
         },
         {
             id: 23,
@@ -546,6 +570,7 @@ function resetarParametros() {
             disponivel: true,
             atividade: "atualize a atividade",
             local: "atualize o local",
+            infraestrutura: false,
         },
         {
             id: 24,
@@ -554,6 +579,7 @@ function resetarParametros() {
             disponivel: true,
             atividade: "atualize a atividade",
             local: "atualize o local",
+            infraestrutura: false,
         },
         {
             id: 25,
@@ -562,6 +588,7 @@ function resetarParametros() {
             disponivel: true,
             atividade: "atualize a atividade",
             local: "atualize o local",
+            infraestrutura: false,
         },
         {
             id: 26,
@@ -570,6 +597,7 @@ function resetarParametros() {
             disponivel: true,
             atividade: "atualize a atividade",
             local: "atualize o local",
+            infraestrutura: false,
         },
         {
             id: 27,
@@ -578,6 +606,7 @@ function resetarParametros() {
             disponivel: true,
             atividade: "atualize a atividade",
             local: "atualize o local",
+            infraestrutura: false,
         },
         {
             id: 28,
@@ -586,6 +615,7 @@ function resetarParametros() {
             disponivel: true,
             atividade: "atualize a atividade",
             local: "atualize o local",
+            infraestrutura: false,
         },
     ];
 
@@ -700,7 +730,7 @@ function mostrarEscala() {
 
     if (equipamentosIndisponiveis.length > 0) {
         equipamentosIndisponiveis.forEach(equipamento => {
-            montarEscala(equipamento.tag, "manutenção", "manutenção", equipamento.local);
+            montarEscala(equipamento.tag, "indisponível", "indisponível", equipamento.local);
         })
     }
 
@@ -911,8 +941,8 @@ function escalarCat777(preferencia = false) {
                     montarEscala(equipamento.tag, operador.nome, equipamento.atividade, equipamento.local);
                 }
 
-            } 
-            
+            }
+
             // OPERA APENAS CAT777 E EHGP
             if (operadores.filter((operador) => (operador.habilitado.d11 == false && operador.habilitado.ehgp == true && operador.habilitado.dragline == false)).length > 0) {
                 let operadoresApenasCat777EEscavadeira = operadores.filter((operador) => (operador.habilitado.d11 == false && operador.habilitado.ehgp == true))
@@ -1207,6 +1237,7 @@ function renderizarConfiguracoes() {
                                 <div class="liConfiguracaoContainer">
                                     <div class="operadorEEquipamentoNome">${equipamento.tag.toUpperCase()}</div>
                                     <div class="operadorEEquipamentoStatus">${equipamento.disponivel ? "Disponível" : "Indisponível"}</div>
+                                   
                                     <div class="controlesConfiguracaoContainer">
                                         
                                             <div class="switchContainer ${equipamento.disponivel ? "active" : ""}" equipamentoSwitch${index}>
@@ -1238,6 +1269,8 @@ function renderizarConfiguracoes() {
             // console.log(equipamentos[index].disponivel);
             // renderizarConfiguracoes();
         });
+
+
     });
 
     lisOperadores.forEach((li, index) => {
@@ -1268,14 +1301,28 @@ function renderizarEscala(escala) {
     escala.sort((a, b) => {
         return a.equipamento < b.equipamento ? -1 : a.equipamento > b.equipamento ? 1 : 0;
     })
+
+    // COR ESPECIAL DE ACORDO COM O ESTADO DO EQUIPAMENTO
     escala.forEach((element, index) => {
+        let className;
+
+        if (element.operador == "FALTA DE OPERADOR") {
+            className = 'semOperador';
+        } else if (element.operador == 'MANUTENÇÃO'){
+            className = 'manutencao';
+        } else if (element.operador == "INDISPONÍVEL"){
+            className = 'indisponivel';
+        } else if (element.operador == "INFRAESTRUTURA"){
+            className = 'infraestrutura';
+        }
+
         let novaLinha = `
                             <tr id=${index}>
-                                <td col1 class="${element.operador == 'FALTA DE OPERADOR' ? 'semOperador' : element.operador == 'MANUTENÇÃO' ? 'manutencao' : ''}"><label for="col1${index}">${element.equipamento}</label></td>
-                                <td col2 class="${element.operador == 'FALTA DE OPERADOR' ? 'semOperador' : element.operador == 'MANUTENÇÃO' ? 'manutencao' : ''}"><label for="col2${index}">${element.operador}</label></td>
-                                <td col3 class="${element.operador == 'FALTA DE OPERADOR' ? 'semOperador' : element.operador == 'MANUTENÇÃO' ? 'manutencao' : ''}"><label for="col3${index}">${element.local}</label></td>
-                                <td col4 class="${element.operador == 'FALTA DE OPERADOR' ? 'semOperador' : element.operador == 'MANUTENÇÃO' ? 'manutencao' : ''}"><label for="col4${index}">${element.transporte}</label></td>
-                                <td col5 class="${element.operador == 'FALTA DE OPERADOR' ? 'semOperador' : element.operador == 'MANUTENÇÃO' ? 'manutencao' : ''}"><label for="col5${index}">${element.atividade}</label></td>
+                                <td col1 class="${className}"><label for="col1${index}">${element.equipamento}</label></td>
+                                <td col2 class="${className}"><label for="col2${index}">${element.operador}</label></td>
+                                <td col3 class="${className}"><label for="col3${index}">${element.local}</label></td>
+                                <td col4 class="${className}"><label for="col4${index}">${element.transporte}</label></td>
+                                <td col5 class="${className}"><label for="col5${index}">${element.atividade}</label></td>
                             </tr>
             
             `;
@@ -1308,14 +1355,52 @@ function mostrarTela3() {
 }
 
 
-function mostrarTela4(condicao) {
+function mostrarTela4(condicao, col) {
     if (condicao) {
         tela4.classList.remove('esconder');
         tela4.classList.add('mostrar');
+
+        let input = document.querySelector(`[inputMudanca]`);
+
+        console.log(col);
+
+        if (col.getAttribute('col2') != null) {
+            let dataListOperadoresDisponiveis = document.querySelector("#operadoresDiponiveis");
+            let optionIndisponivel = `<option value="indisponível">`;
+            let optionManutencao = `<option value="manutenção">`;
+            let optionInfraestrutura = `<option value="infraestrutura">`;
+            let optionFaltaOperador = `<option value="falta de operador">`;
+
+            dataListOperadoresDisponiveis.innerHTML = "";
+            dataListOperadoresDisponiveis.innerHTML += optionFaltaOperador;
+            dataListOperadoresDisponiveis.innerHTML += optionIndisponivel;
+            dataListOperadoresDisponiveis.innerHTML += optionInfraestrutura;
+            dataListOperadoresDisponiveis.innerHTML += optionManutencao;
+
+
+            operadoresDisponiveis.forEach(operador => {
+                let option = `<option value="${operador.nome}">`;
+                dataListOperadoresDisponiveis.innerHTML += option;
+            });
+            
+            input.setAttribute('list', 'operadoresDiponiveis');
+        }
+        if (col.getAttribute('col3') != null) {
+            input.setAttribute('list', 'local');
+        }
+        if (col.getAttribute('col4') != null) {
+            input.setAttribute('list', 'transporte');
+        }
+        if (col.getAttribute('col5') != null) {
+            input.setAttribute('list', 'atividadesPrincipais');
+        }
+
     } else {
         tela4.classList.remove('mostrar');
         tela4.classList.add('esconder');
     }
+
+
 }
 
 function atribuirEventos() {
@@ -1393,13 +1478,14 @@ function atribuirEventos() {
 
     // SALVA NO LOCAL STORAGE
     btnSalvarEdicao.addEventListener('click', () => {
+        let tds = document.querySelectorAll(`td[col1]`);
         let input = document.querySelector(`[inputMudanca]`);
         let checkboxes = document.querySelectorAll('[type = checkbox]');
         let textoGeracao = document.querySelector('.creditsEscalaContainer');
 
 
 
-        checkboxes.forEach((check) => {
+        checkboxes.forEach((check, indice) => {
             if (input.value != "") {
                 if (check.checked) {
                     // VERIFICA SE A ESCALA ACABOU DE SER GERADA OU SE A ESCALA JÁ FOI GERADA E SALVA.
@@ -1407,19 +1493,19 @@ function atribuirEventos() {
 
                         // VERIFICA A COLUNA CHECADA PARA PODER SALVAR O BANCO DE DADOS
                         if (check.getAttribute('col2') != null) {
-                            let index = listaEscalas[0].escala.findIndex((element) => element.operador == check.parentElement.innerText);
+                            let index = listaEscalas[0].escala.findIndex((element) => element.operador == check.parentElement.innerText && element.equipamento == tds[indice].innerText);
                             listaEscalas[0].escala[index].operador = input.value.toUpperCase();
                         } else if (check.getAttribute('col3') != null) {
-                            let index = listaEscalas[0].escala.findIndex((element) => element.local == check.parentElement.innerText);
+                            let index = listaEscalas[0].escala.findIndex((element) => element.local == check.parentElement.innerText && element.equipamento == tds[indice].innerText);
                             listaEscalas[0].escala[index].local = input.value.toUpperCase();
 
                             index = equipamentos.findIndex(equipamento => equipamento.tag.toUpperCase() == listaEscalas[0].escala[index].equipamento);
                             equipamentos[index].local = input.value;
                         } else if (check.getAttribute('col4') != null) {
-                            let index = listaEscalas[0].escala.findIndex((element) => element.transporte == check.parentElement.innerText);
+                            let index = listaEscalas[0].escala.findIndex((element) => element.transporte == check.parentElement.innerText && element.equipamento == tds[indice].innerText);
                             listaEscalas[0].escala[index].transporte = input.value.toUpperCase();
                         } else if (check.getAttribute('col5') != null) {
-                            let index = listaEscalas[0].escala.findIndex((element) => element.atividade == check.parentElement.innerText);
+                            let index = listaEscalas[0].escala.findIndex((element) => element.atividade == check.parentElement.innerText && element.equipamento == tds[indice].innerText);
                             listaEscalas[0].escala[index].atividade = input.value.toUpperCase();
 
                             index = equipamentos.findIndex(equipamento => equipamento.tag.toUpperCase() == listaEscalas[0].escala[index].equipamento);
@@ -1438,20 +1524,20 @@ function atribuirEventos() {
                     } else {
 
                         if (check.getAttribute('col2') != null) {
-                            let index = escala.findIndex((element) => element.operador == check.parentElement.innerText);
+                            let index = escala.findIndex((element) => element.operador == check.parentElement.innerText && element.equipamento == tds[indice].innerText);
                             escala[index].operador = input.value.toUpperCase();
                         } else if (check.getAttribute('col3') != null) {
-                            let index = escala.findIndex((element) => element.local == check.parentElement.innerText);
+                            let index = escala.findIndex((element) => element.local == check.parentElement.innerText && element.equipamento == tds[indice].innerText);
                             escala[index].local = input.value.toUpperCase();
 
                             index = equipamentos.findIndex(equipamento => equipamento.tag.toUpperCase() == escala[index].equipamento);
                             equipamentos[index].local = input.value;
                             // console.log(equipamentos[index]);
                         } else if (check.getAttribute('col4') != null) {
-                            let index = escala.findIndex((element) => element.transporte == check.parentElement.innerText);
+                            let index = escala.findIndex((element) => element.transporte == check.parentElement.innerText && element.equipamento == tds[indice].innerText);
                             escala[index].transporte = input.value.toUpperCase();
                         } else if (check.getAttribute('col5') != null) {
-                            let index = escala.findIndex((element) => element.atividade == check.parentElement.innerText);
+                            let index = escala.findIndex((element) => element.atividade == check.parentElement.innerText && element.equipamento == tds[indice].innerText);
                             escala[index].atividade = input.value.toUpperCase();
 
                             index = equipamentos.findIndex(equipamento => equipamento.tag.toUpperCase() == escala[index].equipamento);
@@ -1485,12 +1571,15 @@ function atribuirEventos() {
 
 
     btnEditarEscala.forEach((btnEditar, index) => {
-        btnEditar.addEventListener('click', () => {
+        btnEditar.addEventListener('click', (e) => {
+
             let tds = document.querySelectorAll(`td[col${index + 2}]`);
             console.log('clicando');
+
             // verifica de tem escala gerada
             if (tds.length != 0) {
-                mostrarTela4(true);
+                mostrarTela4(true, e.target);
+
                 // verifica se tem checkbox em tela
                 if (document.querySelectorAll('[type = checkbox]').length == 0) {
                     console.log('adicionando check');
@@ -1504,14 +1593,17 @@ function atribuirEventos() {
                         let input = `<input type="checkbox" id="col${index + 2}${jindex}" col${index + 2}>`;
                         td.innerHTML = input + td.innerHTML;
                     });
+
                 } else {
                     let checkboxes = document.querySelectorAll('[type = checkbox]');
                     checkboxes.forEach(check => {
                         check.parentElement.innerHTML = '' + check.parentElement.innerText;
                     })
 
-                    mostrarTela4(false);
+                    mostrarTela4(false, e.target);
 
+                    let input = document.querySelector(`[inputMudanca]`);
+                    input.value = '';
                     btnTela2Voltar.disabled = false;
                     btnGerarEscala.disabled = false;
                     btnSalvarEscala.disabled = false;
