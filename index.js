@@ -1,8 +1,8 @@
-
 var operadores;
-
 var equipamentos;
-
+var turma;
+var operadoresDaTurma;
+var listaEscalaDaTurma;
 // -----------------------------VARIÁVEIS DE BANCO DE DADOS-----------------------------
 // USADA PARA GUARDAR OS EQUIPAMENTOS DISPONÍVEIS DO BANCO DE DADOS;
 var equipamentosDisponiveis;
@@ -10,7 +10,6 @@ var equipamentosIndisponiveis;
 
 // USADA PARA GUARDAR OS OPERADORES DISPONÍVEIS DO BANCO DE DADOS;
 var operadoresDisponiveis;
-
 
 // USADA PARA GUARDAR A ESCALA FINAL;
 var escala;
@@ -32,13 +31,11 @@ var btnTela3Voltar = document.querySelector('[tela3Voltar]');
 var btnMostrarTela3 = document.querySelectorAll('[configuracao]');
 var btnTela4Voltar = document.querySelector('[tela4Voltar]');
 var btnResetarBancoDados = document.querySelector('[resetarBancoDados]');
-
-
 var btnGerarEscala = document.querySelector('[gerarEscala]');
 var btnSalvarEscala = document.querySelector('[salvar]');
 var btnEditarEscala = document.querySelectorAll('.edit');
-
 var btnSalvarEdicao = document.querySelector('[salvarEdicao]');
+let select = document.querySelector('[name = selectTurmas]');
 
 // ---------------------------------------------------------------------------------------
 
@@ -49,6 +46,7 @@ function resetarParametros() {
     let equipamentosBD = localStorage.getItem('equipamentos');
     let listasEscalasBD = localStorage.getItem('listaEscalas');
 
+    
     operadores = operadoresBD != null ? JSON.parse(operadoresBD) : [
         {
             id: 1,
@@ -362,6 +360,42 @@ function resetarParametros() {
             },
             disponivel: true,
         },
+        {
+            id: 28,
+            nome: "operador A",
+            turma: "a",
+            habilitado: {
+                d11: true,
+                ehgp: true,
+                dragline: true,
+                cat777: false,
+            },
+            disponivel: true,
+        },
+        {
+            id: 29,
+            nome: "operador B",
+            turma: "b",
+            habilitado: {
+                d11: true,
+                ehgp: true,
+                dragline: true,
+                cat777: false,
+            },
+            disponivel: true,
+        },
+        {
+            id: 30,
+            nome: "operador C",
+            turma: "c",
+            habilitado: {
+                d11: true,
+                ehgp: true,
+                dragline: true,
+                cat777: false,
+            },
+            disponivel: true,
+        },
     ];
 
     equipamentos = equipamentosBD != null ? JSON.parse(equipamentosBD) : [
@@ -621,20 +655,60 @@ function resetarParametros() {
 
     listaEscalas = listasEscalasBD != null ? JSON.parse(listasEscalasBD) : [];
 
+    // LINHAS DOS DADOS DA TURMA
+    operadoresDaTurma = operadores.filter((operador) => operador.turma == turma);
+    listaEscalaDaTurma = listaEscalas.filter((escala) => escala.turma == turma);
+
+    // console.log('operadoresDaTurma');
+    // console.log(operadoresDaTurma);
+
     equipamentosDisponiveis = equipamentos.filter((equipamento) => equipamento.disponivel == true);
     equipamentosIndisponiveis = equipamentos.filter((equipamento) => equipamento.disponivel == false);
-    operadoresDisponiveis = operadores.filter((operador) => operador.disponivel == true);
+    operadoresDisponiveis = operadoresDaTurma.filter((operador) => operador.disponivel == true);
     escala = [];
 
     equipamentos.sort((a, b) => {
         return a.tag < b.tag ? -1 : a.tag > b.tag ? 1 : 0;
     })
-    operadores.sort((a, b) => {
+    operadoresDaTurma.sort((a, b) => {
         return a.nome < b.nome ? -1 : a.nome > b.nome ? 1 : 0;
     })
 }
 
 function salvarParametros() {
+
+    // REMOVE TODOS OS OPERADORES DA turma
+    let copiaOperadores = [];
+    operadores.forEach((operador) => {
+        if (operador.turma != turma) {
+            copiaOperadores.push(operador);
+        }
+    })
+
+
+    // ADICIONA O ARRAY DE OPERADORES JÁ COM ATUALIZAÇÕES
+    operadoresDaTurma.forEach((operador) => {
+        copiaOperadores.push(operador);
+    });
+
+    operadores = copiaOperadores;
+
+
+    let copiaListaEscalas = [];
+    // REMOVE TODOS OS OPERADORES DA turma
+    listaEscalas.forEach((escala, index) => {
+        if (escala.turma != turma) {
+            copiaListaEscalas.push(escala);
+        }
+    })
+
+    // ADICIONA O ARRAY DE OPERADORES JÁ COM ATUALIZAÇÕES
+    listaEscalaDaTurma.forEach((escala) => {
+        copiaListaEscalas.push(escala);
+    });
+
+    listaEscalas = copiaListaEscalas;
+
 
     let operadoresBD = operadores;
     let equipamentosBD = equipamentos;
@@ -675,15 +749,16 @@ function montarListaEscalas(escala, operadoresForaEscala, equipamentoFaltaOperad
     let segundo = date.getSeconds();
 
     let escalas = {
+        turma: turma,
         dataCriacao: `${ano}-${mes}-${dia}`,
         horarioCriacao: `${hora}:${minuto}:${segundo}`,
-        nome: `Escala do dia ${ano}/${mes}/${dia}`,
+        nome: `Escala da Turma ${turma.toUpperCase()} - ${ano}/${mes}/${dia}`,
         escala: escala,
         operadoresForaEscala: operadoresForaEscala,
         equipamentoFaltaOperador: equipamentoFaltaOperador
     }
 
-    listaEscalas.unshift(escalas);
+    listaEscalaDaTurma.unshift(escalas);
     // salvarParametros();
 }
 
@@ -691,7 +766,7 @@ function mostrarEscala() {
     resetarParametros();
     let contador = 0;
     console.log('mostrando escala');
-
+    // console.log(operadoresDisponiveis);
     while (equipamentosDisponiveis.length > 0 && operadoresDisponiveis.length > 0) {
         if (contador <= 20) {
             console.log('escala 1');
@@ -777,6 +852,8 @@ function escalarDragline() {
             let equipamento = draglines[Math.floor(Math.random() * draglines.length)];
             let operador = operadores[Math.floor(Math.random() * operadores.length)];
 
+            console.log('escala dragline');
+            console.log(operadoresDisponiveis);
             equipamentosDisponiveis.splice(equipamentosDisponiveis.indexOf(equipamento), 1);
             operadoresDisponiveis.splice(operadoresDisponiveis.indexOf(operador), 1);
 
@@ -874,7 +951,6 @@ function escalarEHGP(preferencia = false) {
                 }
             }
         }
-
         while ((escavadeiras.length > 0) && (operadores.length > 0)) {
             let equipamento = escavadeiras[Math.floor(Math.random() * escavadeiras.length)];
             let operador = operadores[Math.floor(Math.random() * operadores.length)];
@@ -1123,7 +1199,7 @@ function escala4() {
 // SALVA NO LOCAL STORAGE
 function atualizarTelaEscalas() {
     ulListaEscalas.innerHTML = '';
-    listaEscalas.forEach((escala, index) => {
+    listaEscalaDaTurma.forEach((escala, index) => {
         ulListaEscalas.innerHTML += `
         <li id="${index}">
             <div class="liContainer">
@@ -1152,17 +1228,17 @@ function atualizarTelaEscalas() {
 
 
             // FOI PRECISO ADAPTAR O CÓDIGO, POIS O SPLICE NÃO FUNCIONOU, SENDO ASSIM UM ARRAY CÓPIA FOI PREENCHIDO SEM O ELEMENTO A SER REMOVIDO
-            let elementoParaRemover = listaEscalas[index];
+            let elementoParaRemover = listaEscalaDaTurma[index];
             let copiaListaEscalas = [];
 
-            listaEscalas.forEach((e) => {
+            listaEscalaDaTurma.forEach((e) => {
                 if (e != elementoParaRemover) {
                     copiaListaEscalas.push(e);
                 }
             });
-            listaEscalas = copiaListaEscalas;
+            listaEscalaDaTurma = copiaListaEscalas;
 
-            console.log(listaEscalas);
+            console.log(listaEscalaDaTurma);
 
             // listaEscalas.splice(listaEscalas[index], 1);
 
@@ -1174,11 +1250,11 @@ function atualizarTelaEscalas() {
 
         // PARTE RESPONSÁVEL POR DETALHES DA ESCALA
         btnInfoEscala.addEventListener('click', () => {
-            let escala = listaEscalas[index].escala;
+            let escala = listaEscalaDaTurma[index].escala;
             let containerEscala = document.querySelector('.escalaContainer');
             let textoDeGeracao = `
             <div class="creditsEscalaContainer" detalhesCriacao>
-                <p>Generated in <strong>${listaEscalas[index].dataCriacao} at ${listaEscalas[index].horarioCriacao}</strong></p>
+                <p>Generated in <strong>${listaEscalaDaTurma[index].dataCriacao} at ${listaEscalaDaTurma[index].horarioCriacao}</strong></p>
                 <p>GEMIN / GADEM</p>
 
             </div>
@@ -1214,7 +1290,7 @@ function renderizarConfiguracoes() {
     ulListaOperadores.innerHTML = '';
     ulListaEquipamentos.innerHTML = '';
 
-    operadores.forEach((operador, index) => {
+    operadoresDaTurma.forEach((operador, index) => {
         ulListaOperadores.innerHTML += `
                                 <li id="${index}">
                                     <div class="liConfiguracaoContainer">
@@ -1278,11 +1354,12 @@ function renderizarConfiguracoes() {
 
         btnSwitch.addEventListener('click', () => {
             btnSwitch.classList.toggle('active');
-            operadores[index].disponivel = !operadores[index].disponivel;
+            // operadores[operadores.indexOf(operadoresDaTurma[index])].disponivel = !operadores[operadores.indexOf(operadoresDaTurma[index])].disponivel;
+            operadoresDaTurma[index].disponivel = !operadoresDaTurma[index].disponivel;
 
             let divOperadorStatus = li.querySelector(`.operadorEEquipamentoStatus`);
             divOperadorStatus.innerText = '';
-            divOperadorStatus.innerText = operadores[index].disponivel ? "Disponível" : "Indisponível";
+            divOperadorStatus.innerText = operadoresDaTurma[index].disponivel ? "Disponível" : "Indisponível";
 
             salvarParametros();
             // console.log(divOperadorStatus)
@@ -1308,11 +1385,11 @@ function renderizarEscala(escala) {
 
         if (element.operador == "FALTA DE OPERADOR") {
             className = 'semOperador';
-        } else if (element.operador == 'MANUTENÇÃO'){
+        } else if (element.operador == 'MANUTENÇÃO') {
             className = 'manutencao';
-        } else if (element.operador == "INDISPONÍVEL"){
+        } else if (element.operador == "INDISPONÍVEL") {
             className = 'indisponivel';
-        } else if (element.operador == "INFRAESTRUTURA"){
+        } else if (element.operador == "INFRAESTRUTURA") {
             className = 'infraestrutura';
         }
 
@@ -1382,7 +1459,7 @@ function mostrarTela4(condicao, col) {
                 let option = `<option value="${operador.nome}">`;
                 dataListOperadoresDisponiveis.innerHTML += option;
             });
-            
+
             input.setAttribute('list', 'operadoresDiponiveis');
         }
         if (col.getAttribute('col3') != null) {
@@ -1401,6 +1478,36 @@ function mostrarTela4(condicao, col) {
     }
 
 
+}
+
+// ATUALIZA O TÍTULO E O PARAMETRO DA TURMA
+function atualizarTituloEscalas() {
+    let tituloEscalas = document.querySelector('[tituloEscalas]');
+
+    turma = select.value;
+    // console.log(turma);
+    tituloEscalas.innerHTML = '';
+    tituloEscalas.innerHTML = `Escalas Turma ${turma.toUpperCase()}`;
+}
+// FUNÇÃO RESPONSÁVEL POR CARREGAR TODOS OS EVENTOS E FUNCIONALIDADES DA APLICAÇÃO
+function carregarAplicacao() {
+    // localStorage.clear();
+    // console.log(JSON.parse(localStorage.getItem('equipamentos')));
+    // console.log(JSON.parse(localStorage.getItem('operadores')));
+    // console.log('LISTA ESCALAS');
+    // console.log(JSON.parse(localStorage.getItem('listaEscalas')));
+    atualizarTituloEscalas();
+
+
+    resetarParametros();
+    // console.log(operadores);
+
+    atribuirEventos();
+    renderizarConfiguracoes();
+
+    if (listaEscalas.length > 0) {
+        atualizarTelaEscalas();
+    }
 }
 
 function atribuirEventos() {
@@ -1462,12 +1569,12 @@ function atribuirEventos() {
         tela2.classList.add('esconder');
         tela2.classList.remove('mostrar');
 
-        console.log(listaEscalas);
         // SALVA NO LOCALSTORAGE
         salvarParametros();
-
+        
         //limpa a tela de escalas ao voltar
         resetarParametros();
+        console.log(listaEscalas);
         let tbody = document.querySelector('tbody');
         tbody.innerHTML = '';
 
@@ -1493,22 +1600,22 @@ function atribuirEventos() {
 
                         // VERIFICA A COLUNA CHECADA PARA PODER SALVAR O BANCO DE DADOS
                         if (check.getAttribute('col2') != null) {
-                            let index = listaEscalas[0].escala.findIndex((element) => element.operador == check.parentElement.innerText && element.equipamento == tds[indice].innerText);
-                            listaEscalas[0].escala[index].operador = input.value.toUpperCase();
+                            let index = listaEscalaDaTurma[0].escala.findIndex((element) => element.operador == check.parentElement.innerText && element.equipamento == tds[indice].innerText);
+                            listaEscalaDaTurma[0].escala[index].operador = input.value.toUpperCase();
                         } else if (check.getAttribute('col3') != null) {
-                            let index = listaEscalas[0].escala.findIndex((element) => element.local == check.parentElement.innerText && element.equipamento == tds[indice].innerText);
-                            listaEscalas[0].escala[index].local = input.value.toUpperCase();
+                            let index = listaEscalaDaTurma[0].escala.findIndex((element) => element.local == check.parentElement.innerText && element.equipamento == tds[indice].innerText);
+                            listaEscalaDaTurma[0].escala[index].local = input.value.toUpperCase();
 
-                            index = equipamentos.findIndex(equipamento => equipamento.tag.toUpperCase() == listaEscalas[0].escala[index].equipamento);
+                            index = equipamentos.findIndex(equipamento => equipamento.tag.toUpperCase() == listaEscalaDaTurma[0].escala[index].equipamento);
                             equipamentos[index].local = input.value;
                         } else if (check.getAttribute('col4') != null) {
-                            let index = listaEscalas[0].escala.findIndex((element) => element.transporte == check.parentElement.innerText && element.equipamento == tds[indice].innerText);
-                            listaEscalas[0].escala[index].transporte = input.value.toUpperCase();
+                            let index = listaEscalaDaTurma[0].escala.findIndex((element) => element.transporte == check.parentElement.innerText && element.equipamento == tds[indice].innerText);
+                            listaEscalaDaTurma[0].escala[index].transporte = input.value.toUpperCase();
                         } else if (check.getAttribute('col5') != null) {
-                            let index = listaEscalas[0].escala.findIndex((element) => element.atividade == check.parentElement.innerText && element.equipamento == tds[indice].innerText);
-                            listaEscalas[0].escala[index].atividade = input.value.toUpperCase();
+                            let index = listaEscalaDaTurma[0].escala.findIndex((element) => element.atividade == check.parentElement.innerText && element.equipamento == tds[indice].innerText);
+                            listaEscalaDaTurma[0].escala[index].atividade = input.value.toUpperCase();
 
-                            index = equipamentos.findIndex(equipamento => equipamento.tag.toUpperCase() == listaEscalas[0].escala[index].equipamento);
+                            index = equipamentos.findIndex(equipamento => equipamento.tag.toUpperCase() == listaEscalaDaTurma[0].escala[index].equipamento);
                             equipamentos[index].atividade = input.value;
 
                             console.log(equipamentos[index]);
@@ -1520,7 +1627,7 @@ function atribuirEventos() {
                         salvarParametros();
                         resetarParametros();
                         // console.log(listaEscalas[0].escala);
-                        renderizarEscala(listaEscalas[0].escala);
+                        renderizarEscala(listaEscalaDaTurma[0].escala);
                     } else {
 
                         if (check.getAttribute('col2') != null) {
@@ -1621,22 +1728,15 @@ function atribuirEventos() {
             alert('Dados Apagados com sucesso!');
         }
     })
+
+    select.addEventListener('change', () => {
+        atualizarTituloEscalas();
+        resetarParametros();
+        atualizarTelaEscalas();
+    })
 }
 
 
 window.addEventListener('load', () => {
-    // localStorage.clear();
-    // console.log(JSON.parse(localStorage.getItem('equipamentos')));
-    // console.log(JSON.parse(localStorage.getItem('operadores')));
-    // console.log('LISTA ESCALAS');
-    // console.log(JSON.parse(localStorage.getItem('listaEscalas')));
-
-    resetarParametros();
-    atribuirEventos();
-    renderizarConfiguracoes();
-
-    if (listaEscalas.length > 0) {
-        atualizarTelaEscalas();
-    }
+    carregarAplicacao();
 });
-
