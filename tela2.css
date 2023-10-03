@@ -21,7 +21,7 @@
     /* border-radius: 15px; */
     background-color: #ffffff;
     /* margin: 25px 0; */
-    font-size: 12.5px;
+    font-size: 12px;
     letter-spacing: 1px;
     font-family: sans-serif;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
@@ -95,7 +95,7 @@
     overflow-y: scroll;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     align-items: end;
     /* padding: 1% 1%; */
     /* background-color: aqua; */
@@ -192,6 +192,24 @@
 
 .indisponivel {
     background-color: rgba(231, 76, 60,0.5);
+}
+
+.operadoresForaEscalaContainer{
+    /* background-color: purple; */
+    width: 30%;
+}
+
+.operadoresForaEscalaContainer li{
+    font-size: 11px;
+    letter-spacing: 1px;
+}
+
+.creditosEOperadoresForaEscala{
+    padding: 1% 0.5%;
+    justify-content: space-between;
+    display: flex;
+    border-top: #009879 1px solid;
+    width: 100%;
 }
 
 

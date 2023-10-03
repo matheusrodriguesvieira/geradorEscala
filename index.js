@@ -32,7 +32,7 @@ var btnMostrarTela3 = document.querySelectorAll('[configuracao]');
 var btnTela4Voltar = document.querySelector('[tela4Voltar]');
 var btnResetarBancoDados = document.querySelector('[resetarBancoDados]');
 var btnGerarEscala = document.querySelector('[gerarEscala]');
-var btnSalvarEscala = document.querySelector('[salvar]');
+// var btnSalvarEscala = document.querySelector('[salvar]');
 var btnEditarEscala = document.querySelectorAll('.edit');
 var btnSalvarEdicao = document.querySelector('[salvarEdicao]');
 let select = document.querySelector('[name = selectTurmas]');
@@ -46,7 +46,7 @@ function resetarParametros() {
     let equipamentosBD = localStorage.getItem('equipamentos');
     let listasEscalasBD = localStorage.getItem('listaEscalas');
 
-    
+
     operadores = operadoresBD != null ? JSON.parse(operadoresBD) : [
         {
             id: 1,
@@ -762,6 +762,8 @@ function montarListaEscalas(escala, operadoresForaEscala, equipamentoFaltaOperad
     // salvarParametros();
 }
 
+
+// FUNÇÃO RESPONSÁVEL POR GERAR UM ESCALA
 function mostrarEscala() {
     resetarParametros();
     let contador = 0;
@@ -792,7 +794,7 @@ function mostrarEscala() {
             gerarEscala(4);
             contador++;
         } else {
-            console.log('Intervenção necessária!');
+            alert('Intervenção necessária!');
             break;
         }
     }
@@ -1238,7 +1240,7 @@ function atualizarTelaEscalas() {
             });
             listaEscalaDaTurma = copiaListaEscalas;
 
-            console.log(listaEscalaDaTurma);
+            // console.log(listaEscalaDaTurma);
 
             // listaEscalas.splice(listaEscalas[index], 1);
 
@@ -1250,24 +1252,30 @@ function atualizarTelaEscalas() {
 
         // PARTE RESPONSÁVEL POR DETALHES DA ESCALA
         btnInfoEscala.addEventListener('click', () => {
+
+            if (index > 0) {
+                btnEditarEscala.forEach(btn => {
+                    btn.hidden = true;
+                });
+            }
+
             let escala = listaEscalaDaTurma[index].escala;
-            let containerEscala = document.querySelector('.escalaContainer');
+            let containerEscala = document.querySelector('.creditosEOperadoresForaEscala');
             let textoDeGeracao = `
             <div class="creditsEscalaContainer" detalhesCriacao>
                 <p>Generated in <strong>${listaEscalaDaTurma[index].dataCriacao} at ${listaEscalaDaTurma[index].horarioCriacao}</strong></p>
                 <p>GEMIN / GADEM</p>
 
             </div>
-
             `;
 
             mostrarTela2();
 
             btnGerarEscala.hidden = true;
             btnMostrarTela3.hidden = true;
-            btnSalvarEscala.hidden = true;
+            // btnSalvarEscala.hidden = true;
 
-            renderizarEscala(escala);
+            renderizarEscala(escala, listaEscalaDaTurma[index].operadoresForaEscala);
 
             let range = document.createRange();
             containerEscala.appendChild(range.createContextualFragment(textoDeGeracao));
@@ -1372,7 +1380,7 @@ function renderizarConfiguracoes() {
 }
 
 
-function renderizarEscala(escala) {
+function renderizarEscala(escala, operadoresForaEscala) {
     let tbody = document.querySelector('tbody');
     tbody.innerHTML = '';
     escala.sort((a, b) => {
@@ -1391,6 +1399,8 @@ function renderizarEscala(escala) {
             className = 'indisponivel';
         } else if (element.operador == "INFRAESTRUTURA") {
             className = 'infraestrutura';
+        } else {
+            className = "";
         }
 
         let novaLinha = `
@@ -1405,6 +1415,20 @@ function renderizarEscala(escala) {
             `;
         tbody.innerHTML += novaLinha;
     });
+
+    let ulOperadoresForaEscala = document.querySelector('.operadoresForaEscalaContainer > ul');
+    ulOperadoresForaEscala.innerHTML = '';
+
+    console.log(operadoresForaEscala);
+    if (operadoresForaEscala.length > 0) {
+        operadoresForaEscala.forEach(operador => {
+            let li = `
+            <li>${operador.nome.toUpperCase()}</li>
+        `;
+
+            ulOperadoresForaEscala.innerHTML += li;
+        });
+    }
 }
 
 function mostrarTela2() {
@@ -1412,7 +1436,7 @@ function mostrarTela2() {
     tela2.classList.remove('esconder');
 
 
-    let containerEscala = document.querySelector('.escalaContainer');
+    let containerEscala = document.querySelector('.creditosEOperadoresForaEscala');
     let textoGeracao = document.querySelector('.creditsEscalaContainer');
 
 
@@ -1421,7 +1445,7 @@ function mostrarTela2() {
     }
 
     btnGerarEscala.hidden = false;
-    btnSalvarEscala.hidden = false;
+    // btnSalvarEscala.hidden = false;
     btnMostrarTela3.hidden = false;
 }
 
@@ -1439,7 +1463,7 @@ function mostrarTela4(condicao, col) {
 
         let input = document.querySelector(`[inputMudanca]`);
 
-        console.log(col);
+        // console.log(col);
 
         if (col.getAttribute('col2') != null) {
             let dataListOperadoresDisponiveis = document.querySelector("#operadoresDiponiveis");
@@ -1455,7 +1479,7 @@ function mostrarTela4(condicao, col) {
             dataListOperadoresDisponiveis.innerHTML += optionManutencao;
 
 
-            operadoresDisponiveis.forEach(operador => {
+            listaEscalaDaTurma[0].operadoresForaEscala.forEach(operador => {
                 let option = `<option value="${operador.nome}">`;
                 dataListOperadoresDisponiveis.innerHTML += option;
             });
@@ -1471,6 +1495,45 @@ function mostrarTela4(condicao, col) {
         if (col.getAttribute('col5') != null) {
             input.setAttribute('list', 'atividadesPrincipais');
         }
+
+
+        // PARTE RESPONSÁVEL POR VERIFICAR SE OPERADOR DIGITADO É REPETIDO
+        // ----------------------------------------------------
+
+        // input.addEventListener('keyup', (e) => {
+        //     let tds = document.querySelectorAll('td[col2]');
+        //     let valoresTds = [];
+        //     console.log('executando');
+
+        //     tds.forEach(element => {
+        //         valoresTds.push(element.innerText);
+        //     });
+
+        //     if ((e.keyCode >= 32 && e.keyCode <= 126) || (e.keyCode == 127 || e.keyCode == 8) || (e.keyCode == undefined)) {
+
+        //         let quantidadeRepeticoes = valoresTds.filter((valor) => (valor == input.value.toUpperCase()) && (valor != 'FALTA DE OPERADOR') && (valor != 'INDISPONÍVEL') && (valor != 'INFRAESTRUTURA') && (valor != 'MANUTENÇÃO'));
+
+        //         console.log(e.keyCode);
+        //         console.log(input.value.toUpperCase());
+        //         console.log(quantidadeRepeticoes);
+
+        //         if (quantidadeRepeticoes.length > 0) {
+        //             console.log('TESTE');
+        //             let index = valoresTds.findIndex(valor => valor == input.value.toUpperCase());
+        //             tds[index].classList.add('repetido');
+        //             btnSalvarEdicao.disabled = true;
+        //             alert('ATENÇÃO!\nVALOR DIGITADO JÁ EXISTE.\nESCOLHA UM OPERADOR FORA DE ESCALA PARA SALVAR')
+        //         } else {
+        //             let td = document.querySelector('.repetido');
+        //             if (td != null) {
+        //                 td.classList.remove('repetido');
+        //             }
+        //             btnSalvarEdicao.disabled = false;
+        //         }
+
+        //     }
+        // });
+        // ----------------------------------------------------
 
     } else {
         tela4.classList.remove('mostrar');
@@ -1510,6 +1573,41 @@ function carregarAplicacao() {
     }
 }
 
+// RETORNA VERDADEIRO SE A ESCALA CONTEM O OPERADOR
+function existeRepeticoes(escala, valor) {
+    let retorno = escala.findIndex(element => element.operador.toUpperCase() == valor.toUpperCase());
+
+    return retorno != -1;
+}
+
+// VERIFICA SE EXISTE MAIS DE UM CHECKBOX MARCADO
+function existeMultiplasInsercoes(checkboxes) {
+    let contador = 0;
+
+    // USADO UM FOR COMUM POR QUE EM UM FOREACH O RETURN NÃO ENCERRA A FUNÇÃO COMO UM TODO
+    for (let i = 0; i < checkboxes.length; i++) {
+        if (checkboxes[i].checked) {
+            contador++;
+            if (contador > 1) {
+                console.log('existeMultiplasInsercoes');
+                return true;
+            }
+        }
+    }
+
+    console.log('nao existeMultiplasInsercoes');
+    return false;
+}
+
+function existeCodigoEspecial(nome) {
+    // console.log(inputOperador.toUpperCase() == 'FALTA DE OPERADOR');
+    if ((nome.toUpperCase() == 'FALTA DE OPERADOR') || (nome.toUpperCase() == 'INDISPONÍVEL') || (nome.toUpperCase() == 'INFRAESTRUTURA') || (nome.toUpperCase() == 'MANUTENÇÃO')) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 function atribuirEventos() {
     btnMostrarTela2.addEventListener('click', mostrarTela2)
 
@@ -1520,7 +1618,12 @@ function atribuirEventos() {
 
     // BOTAO VOLTAR DA TELA 2
     btnTela2Voltar.addEventListener('click', () => {
-        btnSalvarEscala.disabled = true;
+        btnGerarEscala.disabled = false;
+
+        btnEditarEscala.forEach(btn => {
+            btn.hidden = false;
+        });
+
         tela2.classList.add('esconder');
         tela2.classList.remove('mostrar');
 
@@ -1539,7 +1642,7 @@ function atribuirEventos() {
 
         btnTela2Voltar.disabled = false;
         btnGerarEscala.disabled = false;
-        btnSalvarEscala.disabled = false;
+        // btnSalvarEscala.disabled = false;
         btnMostrarTela3[1].disabled = false;
 
 
@@ -1555,121 +1658,125 @@ function atribuirEventos() {
     });
 
     btnGerarEscala.addEventListener('click', () => {
-        btnSalvarEscala.disabled = false;
+        // btnSalvarEscala.disabled = false;
+        btnGerarEscala.disabled = true;
         mostrarEscala();
-        renderizarEscala(escala);
-    });
 
-    // CONTEM FUNÇÃO QUE SALVA NO LOCAL STORAGE
-    btnSalvarEscala.addEventListener('click', () => {
-        btnSalvarEscala.disabled = true;
-
-        // SALVA NO LOCALSTORAGE
         montarListaEscalas(escala, operadoresDisponiveis, equipamentosDisponiveis);
-        tela2.classList.add('esconder');
-        tela2.classList.remove('mostrar');
+        console.log(listaEscalaDaTurma);
 
-        // SALVA NO LOCALSTORAGE
         salvarParametros();
-        
-        //limpa a tela de escalas ao voltar
         resetarParametros();
-        console.log(listaEscalas);
-        let tbody = document.querySelector('tbody');
-        tbody.innerHTML = '';
-
-        // CONTEM FUNÇÃO QUE SALVA NO LOCALSTORAGE
         atualizarTelaEscalas();
 
+        renderizarEscala(listaEscalaDaTurma[0].escala, listaEscalaDaTurma[0].operadoresForaEscala);
     });
+
+    //**************** desabilitado***********
+    // CONTEM FUNÇÃO QUE SALVA NO LOCAL STORAGE
+    // btnSalvarEscala.addEventListener('click', () => {
+    //     btnSalvarEscala.disabled = true;
+
+    //     // SALVA NO LOCALSTORAGE
+    //     montarListaEscalas(escala, operadoresDisponiveis, equipamentosDisponiveis);
+    //     tela2.classList.add('esconder');
+    //     tela2.classList.remove('mostrar');
+
+    //     // SALVA NO LOCALSTORAGE
+    //     salvarParametros();
+
+    //     //limpa a tela de escalas ao voltar
+    //     resetarParametros();
+    //     console.log(listaEscalas);
+    //     let tbody = document.querySelector('tbody');
+    //     tbody.innerHTML = '';
+
+    //     // CONTEM FUNÇÃO QUE SALVA NO LOCALSTORAGE
+    //     atualizarTelaEscalas();
+
+    // });
 
     // SALVA NO LOCAL STORAGE
     btnSalvarEdicao.addEventListener('click', () => {
         let tds = document.querySelectorAll(`td[col1]`);
         let input = document.querySelector(`[inputMudanca]`);
         let checkboxes = document.querySelectorAll('[type = checkbox]');
-        let textoGeracao = document.querySelector('.creditsEscalaContainer');
 
 
+        // VERIFICA SE FOI INSERIDO APENAS ESPAÇOS VAZIOS
+        if (input.value.trim() != "") {
 
-        checkboxes.forEach((check, indice) => {
-            if (input.value != "") {
+            // USADO FOR COMUM PORQUE O RETURN NÃO ENCERRA O FOREACH
+            for (let indice = 0; indice < checkboxes.length; indice++) {
+                let check = checkboxes[indice];
                 if (check.checked) {
-                    // VERIFICA SE A ESCALA ACABOU DE SER GERADA OU SE A ESCALA JÁ FOI GERADA E SALVA.
-                    if (textoGeracao != null) {
+                    // VERIFICA A COLUNA CHECADA PARA PODER SALVAR O BANCO DE DADOS
+                    if (check.getAttribute('col2') != null) {
+                        // VERIFICA SE ESTÁ SENDO INSERIDO UM OPERADOR EM MULTIPLAS LINHAS
+                        if (!existeCodigoEspecial(input.value) && (existeMultiplasInsercoes(checkboxes))) {
+                            alert('Tentando inserir operador em multiplas linhas.')
+                            // mostrarTela4(false);
 
-                        // VERIFICA A COLUNA CHECADA PARA PODER SALVAR O BANCO DE DADOS
-                        if (check.getAttribute('col2') != null) {
+                            checkboxes.forEach((check) => {
+                                check.parentElement.innerHTML = '' + check.parentElement.innerText;
+                            })
+                            break;
+                        } else if (!existeCodigoEspecial(input.value) && (existeRepeticoes(listaEscalaDaTurma[0].escala, input.value))) {
+                            alert('Tentando inserir operador repetido')
+                            checkboxes.forEach((check) => {
+                                check.parentElement.innerHTML = '' + check.parentElement.innerText;
+                            })
+                            break;
+                        } else {
+
+
                             let index = listaEscalaDaTurma[0].escala.findIndex((element) => element.operador == check.parentElement.innerText && element.equipamento == tds[indice].innerText);
+
+                            if (listaEscalaDaTurma[0].operadoresForaEscala.findIndex(operador => operador.nome == input.value) != -1) {
+                                let indexOperadorForaEscala = listaEscalaDaTurma[0].operadoresForaEscala.findIndex(operador => operador.nome == input.value)
+                                listaEscalaDaTurma[0].operadoresForaEscala.splice(indexOperadorForaEscala, 1);
+                            }
+
+                            if ((!existeCodigoEspecial(check.parentElement.innerText)) && (operadoresDaTurma.findIndex(operador => operador.nome == check.parentElement.innerText.toLowerCase()) != -1)) {
+                                let indexOperadorDaTurma = operadoresDaTurma.findIndex(operador => operador.nome == check.parentElement.innerText.toLowerCase())
+                                listaEscalaDaTurma[0].operadoresForaEscala.push(operadoresDaTurma[indexOperadorDaTurma]);
+                            }
+
                             listaEscalaDaTurma[0].escala[index].operador = input.value.toUpperCase();
-                        } else if (check.getAttribute('col3') != null) {
-                            let index = listaEscalaDaTurma[0].escala.findIndex((element) => element.local == check.parentElement.innerText && element.equipamento == tds[indice].innerText);
-                            listaEscalaDaTurma[0].escala[index].local = input.value.toUpperCase();
-
-                            index = equipamentos.findIndex(equipamento => equipamento.tag.toUpperCase() == listaEscalaDaTurma[0].escala[index].equipamento);
-                            equipamentos[index].local = input.value;
-                        } else if (check.getAttribute('col4') != null) {
-                            let index = listaEscalaDaTurma[0].escala.findIndex((element) => element.transporte == check.parentElement.innerText && element.equipamento == tds[indice].innerText);
-                            listaEscalaDaTurma[0].escala[index].transporte = input.value.toUpperCase();
-                        } else if (check.getAttribute('col5') != null) {
-                            let index = listaEscalaDaTurma[0].escala.findIndex((element) => element.atividade == check.parentElement.innerText && element.equipamento == tds[indice].innerText);
-                            listaEscalaDaTurma[0].escala[index].atividade = input.value.toUpperCase();
-
-                            index = equipamentos.findIndex(equipamento => equipamento.tag.toUpperCase() == listaEscalaDaTurma[0].escala[index].equipamento);
-                            equipamentos[index].atividade = input.value;
-
-                            console.log(equipamentos[index]);
                         }
 
+                    } else if (check.getAttribute('col3') != null) {
+                        let index = listaEscalaDaTurma[0].escala.findIndex((element) => element.local == check.parentElement.innerText && element.equipamento == tds[indice].innerText);
+                        listaEscalaDaTurma[0].escala[index].local = input.value.toUpperCase();
 
-                        check.parentElement.innerHTML = input.value.toUpperCase();
-                        console.log(equipamentos);
-                        salvarParametros();
-                        resetarParametros();
-                        // console.log(listaEscalas[0].escala);
-                        renderizarEscala(listaEscalaDaTurma[0].escala);
-                    } else {
+                        index = equipamentos.findIndex(equipamento => equipamento.tag.toUpperCase() == listaEscalaDaTurma[0].escala[index].equipamento);
+                        equipamentos[index].local = input.value;
+                    } else if (check.getAttribute('col4') != null) {
+                        let index = listaEscalaDaTurma[0].escala.findIndex((element) => element.transporte == check.parentElement.innerText && element.equipamento == tds[indice].innerText);
+                        listaEscalaDaTurma[0].escala[index].transporte = input.value.toUpperCase();
+                    } else if (check.getAttribute('col5') != null) {
+                        let index = listaEscalaDaTurma[0].escala.findIndex((element) => element.atividade == check.parentElement.innerText && element.equipamento == tds[indice].innerText);
+                        listaEscalaDaTurma[0].escala[index].atividade = input.value.toUpperCase();
 
-                        if (check.getAttribute('col2') != null) {
-                            let index = escala.findIndex((element) => element.operador == check.parentElement.innerText && element.equipamento == tds[indice].innerText);
-                            escala[index].operador = input.value.toUpperCase();
-                        } else if (check.getAttribute('col3') != null) {
-                            let index = escala.findIndex((element) => element.local == check.parentElement.innerText && element.equipamento == tds[indice].innerText);
-                            escala[index].local = input.value.toUpperCase();
+                        index = equipamentos.findIndex(equipamento => equipamento.tag.toUpperCase() == listaEscalaDaTurma[0].escala[index].equipamento);
+                        equipamentos[index].atividade = input.value;
 
-                            index = equipamentos.findIndex(equipamento => equipamento.tag.toUpperCase() == escala[index].equipamento);
-                            equipamentos[index].local = input.value;
-                            // console.log(equipamentos[index]);
-                        } else if (check.getAttribute('col4') != null) {
-                            let index = escala.findIndex((element) => element.transporte == check.parentElement.innerText && element.equipamento == tds[indice].innerText);
-                            escala[index].transporte = input.value.toUpperCase();
-                        } else if (check.getAttribute('col5') != null) {
-                            let index = escala.findIndex((element) => element.atividade == check.parentElement.innerText && element.equipamento == tds[indice].innerText);
-                            escala[index].atividade = input.value.toUpperCase();
-
-                            index = equipamentos.findIndex(equipamento => equipamento.tag.toUpperCase() == escala[index].equipamento);
-                            equipamentos[index].atividade = input.value;
-                        }
-
-
-                        check.parentElement.innerHTML = input.value.toUpperCase();
-                        // salvarParametros();
-                        renderizarEscala(escala);
                     }
-                } else {
-                    check.parentElement.innerHTML = '' + check.parentElement.innerText;
                 }
-            } else {
-                check.parentElement.innerHTML = '' + check.parentElement.innerText;
-            }
-        });
+            };
 
-        // console.log(escala);
+        }
+
+        salvarParametros();
+        resetarParametros();
+        console.log('operadoresDaTurma[0].operadoresForaEscala');
+        console.log(listaEscalaDaTurma[0].operadoresForaEscala);
+        renderizarEscala(listaEscalaDaTurma[0].escala, listaEscalaDaTurma[0].operadoresForaEscala);
 
         input.value = '';
         btnTela2Voltar.disabled = false;
         btnGerarEscala.disabled = false;
-        btnSalvarEscala.disabled = false;
+        // btnSalvarEscala.disabled = false;
         btnMostrarTela3[1].disabled = false;
         mostrarTela4(false);
 
@@ -1693,7 +1800,7 @@ function atribuirEventos() {
 
                     btnTela2Voltar.disabled = true;
                     btnGerarEscala.disabled = true;
-                    btnSalvarEscala.disabled = true;
+                    // btnSalvarEscala.disabled = true;
                     btnMostrarTela3[1].disabled = true;
 
                     tds.forEach((td, jindex) => {
@@ -1713,7 +1820,7 @@ function atribuirEventos() {
                     input.value = '';
                     btnTela2Voltar.disabled = false;
                     btnGerarEscala.disabled = false;
-                    btnSalvarEscala.disabled = false;
+                    // btnSalvarEscala.disabled = false;
                     btnMostrarTela3[1].disabled = false;
 
                 }
