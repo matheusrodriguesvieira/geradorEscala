@@ -1417,7 +1417,6 @@ function renderizarEscala(escala, operadoresForaEscala) {
     });
 
     let ulOperadoresForaEscala = document.querySelector('.operadoresForaEscalaContainer > ul');
-    ulOperadoresForaEscala.innerHTML = '';
 
     console.log(operadoresForaEscala);
     if (operadoresForaEscala.length > 0) {
@@ -1438,6 +1437,8 @@ function mostrarTela2() {
 
     let containerEscala = document.querySelector('.creditosEOperadoresForaEscala');
     let textoGeracao = document.querySelector('.creditsEscalaContainer');
+    let ulOperadoresForaEscala = document.querySelector('.operadoresForaEscalaContainer > ul');
+    ulOperadoresForaEscala.innerHTML = '';
 
 
     if (textoGeracao !== null) {
