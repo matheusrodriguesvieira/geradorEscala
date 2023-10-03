@@ -1609,6 +1609,21 @@ function existeCodigoEspecial(nome) {
     }
 }
 
+// VERIFICA SE O OPERADOR É AUTORIZADO A OPERAR O EQUIPAMENTO
+function autorizadoOperar(tag, operadorNome) {
+    let indexEquipamento = equipamentos.findIndex(equipamento => equipamento.tag == tag.toLowerCase());
+    let indexOperador = operadores.findIndex(operador => operador.nome == operadorNome.toLowerCase());
+
+    if (indexOperador != -1) {
+        let categoria = equipamentos[indexEquipamento].categoria;
+        let habilitado = operadores[indexOperador].habilitado[categoria];
+        return habilitado;
+    }
+
+    return true;
+}
+
+
 function atribuirEventos() {
     btnMostrarTela2.addEventListener('click', mostrarTela2)
 
@@ -1673,30 +1688,6 @@ function atribuirEventos() {
         renderizarEscala(listaEscalaDaTurma[0].escala, listaEscalaDaTurma[0].operadoresForaEscala);
     });
 
-    //**************** desabilitado***********
-    // CONTEM FUNÇÃO QUE SALVA NO LOCAL STORAGE
-    // btnSalvarEscala.addEventListener('click', () => {
-    //     btnSalvarEscala.disabled = true;
-
-    //     // SALVA NO LOCALSTORAGE
-    //     montarListaEscalas(escala, operadoresDisponiveis, equipamentosDisponiveis);
-    //     tela2.classList.add('esconder');
-    //     tela2.classList.remove('mostrar');
-
-    //     // SALVA NO LOCALSTORAGE
-    //     salvarParametros();
-
-    //     //limpa a tela de escalas ao voltar
-    //     resetarParametros();
-    //     console.log(listaEscalas);
-    //     let tbody = document.querySelector('tbody');
-    //     tbody.innerHTML = '';
-
-    //     // CONTEM FUNÇÃO QUE SALVA NO LOCALSTORAGE
-    //     atualizarTelaEscalas();
-
-    // });
-
     // SALVA NO LOCAL STORAGE
     btnSalvarEdicao.addEventListener('click', () => {
         let tds = document.querySelectorAll(`td[col1]`);
@@ -1728,9 +1719,13 @@ function atribuirEventos() {
                                 check.parentElement.innerHTML = '' + check.parentElement.innerText;
                             })
                             break;
+                        } else if ((!existeCodigoEspecial(input.value)) && (!autorizadoOperar(tds[indice].innerText, input.value))) {
+                            alert(`Operador ${input.value.toUpperCase()} não autorizado a operar ${tds[indice].innerText}.`);
+                            checkboxes.forEach((check) => {
+                                check.parentElement.innerHTML = '' + check.parentElement.innerText;
+                            })
+                            break;
                         } else {
-
-
                             let index = listaEscalaDaTurma[0].escala.findIndex((element) => element.operador == check.parentElement.innerText && element.equipamento == tds[indice].innerText);
 
                             if (listaEscalaDaTurma[0].operadoresForaEscala.findIndex(operador => operador.nome == input.value) != -1) {
