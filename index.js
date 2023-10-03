@@ -1417,8 +1417,8 @@ function renderizarEscala(escala, operadoresForaEscala) {
     });
 
     let ulOperadoresForaEscala = document.querySelector('.operadoresForaEscalaContainer > ul');
-
-    console.log(operadoresForaEscala);
+    ulOperadoresForaEscala.innerHTML = '';
+    // console.log(operadoresForaEscala);
     if (operadoresForaEscala.length > 0) {
         operadoresForaEscala.forEach(operador => {
             let li = `
